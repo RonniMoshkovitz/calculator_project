@@ -13,18 +13,30 @@ This calculator supports the following operations:\n
 \t# ~: negative, in form of ~<operand>\n
 \t# !: factorial, in form of <operand>!\n
 \n
+To display the menu again, please enter: Menu\n
 To exit, please enter: EXIT\n
 """
-__ALL__ = ["get_equation", "display_wellcome_msg", "show_solution"]
 
 
 def get_equation() -> str:
-    return input("Please enter your equation: ")
+    equation = ""
+    try:
+        equation = input("Please enter your equation: ")
+    except EOFError as e:
+        display_info(e)
+        exit(1)
+
+    return equation
 
 
 def display_wellcome_msg():
     print(WELLCOME_MSG)
 
 
-def display_info(info: str):
+def display_info(info: str or Exception):
     print(info)
+
+
+def display_solution(equation: str, solution: float):
+    display_info(f"{equation} = {solution}")
+
