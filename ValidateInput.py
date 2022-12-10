@@ -6,6 +6,48 @@ validates the entered string, to start pars
 """
 
 
+def validate_input(equation_str: str) -> str:
+    """
+    The function removes extra minus signs, spaces and tabs and checks for invalid chars in the equation input string.
+    It treats invalid input if needed (for invalid symbols, dots, or missing brackets).
+    :param equation_str: input equation
+    :return: validated string equation (the input equation without extra minus signs, spaces and tabs)
+    """
+    # Removes extras
+    equation_str = remove_extra_spaces(equation_str)
+    equation_str = remove_extra_minus_signs(equation_str)
+
+    # Checks for invalid symbols in the equation, may raise an exception accordingly
+    try:
+        check_validity(equation_str)
+    except Exception as e:
+        display_info(e)
+        exit(1)
+
+    return equation_str
+
+
+def check_validity(equation_str: str):
+    """
+    Checks for invalid symbols in the equation string. It raises an exception if an invalid symbol is found,
+    or a dot is located in an invalid location, or if there are missing brackets.
+    :param equation_str: string of the equation
+    """
+    for i, symbol in enumerate(equation_str):
+
+        # Checks for invalid symbols
+        if not is_valid_symbol(symbol):
+            raise Exception(f"the symbol: {symbol} in index: {i} is not supported.")
+
+        # Checks for invalid dots
+        if symbol is DOT and not is_valid_dot(equation_str, i):
+            raise Exception(f"invalid dot in index: {i}, dots cant be next to one another or without a digit behind")
+
+    # Checks for misplaced or missing brackets
+    if not are_valid_brackets(equation_str):
+        raise Exception(f"brackets are invalid. missing matching bracket")
+
+
 def remove_extra_minus_signs(equation_str: str) -> str:
     """
     The function removes extra minus signs from the input string.
