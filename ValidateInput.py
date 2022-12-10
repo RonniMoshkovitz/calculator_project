@@ -6,6 +6,26 @@ validates the entered string, to start pars
 """
 
 
+def remove_extra_minus_signs(equation_str: str) -> str:
+    """
+    The function removes extra minus signs from the input string.
+    :param equation_str: input equation string
+    :return: the input equation without extra minus signs
+    """
+    while MINUS_SIGN * 3 in equation_str:
+        equation_str = equation_str.replace(MINUS_SIGN * 3, MINUS_SIGN)
+    return equation_str
+
+
+def remove_extra_spaces(equation_str: str) -> str:
+    """
+    The function removes extra spaces from the input string.
+    :param equation_str: input equation string
+    :return: the input equation without extra spaces and tabs
+    """
+    return "".join(equation_str.split())
+
+
 def is_valid_symbol(symbol: str) -> bool:
     """
     The function checks if the current symbol is valid (supported by the calculator)
